@@ -1,0 +1,48 @@
+services:
+
+  # copies words.txt into the shared volume, then exits
+  words-init:
+    image: alpine:3.20
+    volumes:
+      - ./backend/words-database/data:/source:ro
+      - words-data:/data
+    command: sh -c "cp /source/words.txt /data/words.txt"
+
+  wordsdb:
+    build: ./backend/words-database
+    depends_on:
+      words-init:
+        condition: service_completed_successfully
+    volumes:
+      - words-data:/data:ro
+    networks:
+      - wordle-net
+
+  gameservice:
+    build: ./backend/game-service
+    depends_on:
+      - wordsdb
+    environment:
+      - WORDS_DB_URL=http://wordsdb:8080/wordsdatabase
+    ports:
+      - "8081:8080"
+    networks:
+      - wordle-net
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_GAME_SERVICE_URL: http://localhost:8081/gameservice
+    depends_on:
+      - gameservice
+    ports:
+      - "3000:80"
+    networks:
+      - wordle-net
+
+networks:
+  wordle-net:
+
+volumes:
+  words-data:
