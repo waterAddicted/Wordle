@@ -31,6 +31,18 @@
 
     <build>
         <finalName>wordsdatabase</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <!-- same words.txt used for the shared docker volume, copied onto the classpath as a fallback for local (non-docker) runs -->
+                <directory>${project.basedir}/data</directory>
+                <includes>
+                    <include>words.txt</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

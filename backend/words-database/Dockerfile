@@ -3,6 +3,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn -q -B dependency:go-offline
 COPY src ./src
+COPY data ./data
 RUN mvn -q -B clean package
 
 FROM quay.io/wildfly/wildfly:31.0.1.Final-jdk17
