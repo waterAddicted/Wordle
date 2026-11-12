@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-// singleton, loads words.txt once (shared volume, or classpath as fallback for local runs)
+// singleton, loads words.txt once
 public class WordRepository {
 
     private static final String SHARED_VOLUME_PATH = "/data/words.txt";
