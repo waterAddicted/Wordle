@@ -5,7 +5,6 @@ import ro.tpjad.gameservice.model.GameSession;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-// singleton, in-memory session store
 public class SessionStore {
 
     private static final SessionStore INSTANCE = new SessionStore();
